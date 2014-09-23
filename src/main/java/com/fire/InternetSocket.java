@@ -26,6 +26,8 @@ public class InternetSocket implements Socket {
       String input = in.readLine();
       if(input.equals("Test")) {
         out.println(input);
+      } else if(input.equals("GET / HTTP/1.1")) {
+        out.write("HTTP/1.1 200 OK\r\n");
       } else {
         out.write("HTTP/1.1 404 Not Found\r\n");
       }
