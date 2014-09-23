@@ -16,7 +16,7 @@ public class InternetSocketTest {
     {
         InetAddress host = InetAddress.getLocalHost();
         EchoHandler handler = new EchoHandler();
-        final Socket socket = new InternetSocket(handler);
+        final Socket socket = new InternetSocket(handler, 5000);
 
         new Thread() {
             public void run() {
@@ -33,7 +33,7 @@ public class InternetSocketTest {
             out.println("Test\n");
             out.flush();
 
-            assertEquals("Test", in.readLine());
+            assertEquals("HTTP/1.1 404 Not Found", in.readLine());
         }
         finally {
             client.close();
