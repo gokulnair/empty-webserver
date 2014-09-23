@@ -9,6 +9,8 @@ public class InternetSocket implements Socket {
   private SocketHandler handler;
   private java.net.Socket socket;
   public int portNumber;
+  private PrintWriter out = null;
+  private ServerSocket serverSocket = null;
 
   public InternetSocket(SocketHandler handler, int portNumber) {
     this.handler = handler;
@@ -17,13 +19,43 @@ public class InternetSocket implements Socket {
 
   @Override
   public void start() {
-    ServerSocket serverSocket = null;
     try {
       serverSocket = new ServerSocket(portNumber);
       socket = serverSocket.accept();
-      PrintWriter out = new PrintWriter(socket.getOutputStream());
+    } catch (Exception e) {
+      if (serverSocket != null) {
+        try {
+          serverSocket.close();
+        } catch (IOException e1) {
+          e1.printStackTrace();
+        }
+      }
+    }
+  }
+
+  public String readSocketData() {
+    try {
+      out = new PrintWriter(socket.getOutputStream());
       BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       String input = in.readLine();
+      return input;
+
+    }
+    catch (Exception e)
+    {
+      if (serverSocket != null)
+        try {
+          serverSocket.close();
+        } catch (IOException e1) {
+          e1.printStackTrace();
+        }
+    }
+
+    return new String();
+  }
+
+  public void writeSocketData(String input) {
+    try {
       if(input.equals("Test")) {
         out.println(input);
       } else if(input.equals("GET / HTTP/1.1")) {
@@ -37,11 +69,11 @@ public class InternetSocket implements Socket {
     catch (Exception e)
     {
       if (serverSocket != null)
-          try {
-              serverSocket.close();
-          } catch (IOException e1) {
-              e1.printStackTrace();
-          }
+        try {
+          serverSocket.close();
+        } catch (IOException e1) {
+          e1.printStackTrace();
+        }
     }
   }
 }

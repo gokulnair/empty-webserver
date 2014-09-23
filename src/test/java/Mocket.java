@@ -7,4 +7,14 @@ public class Mocket implements Socket {
     public void start() {
         Started = true;
     }
+
+  @Override
+  public String readSocketData() {
+    return null;
+  }
+
+  @Override
+  public void writeSocketData(String input) {
+
+  }
 }

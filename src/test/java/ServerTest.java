@@ -28,8 +28,8 @@ public class ServerTest {
     Mocket mocket = new Mocket();
     Server server = new Server(mocket);
     server.run();
-    int response = server.processRequest("/foobar");
-    assertEquals(404, response);
+    String response = server.processRequest("/foobar");
+    assertEquals("404", response);
   }
 
 }

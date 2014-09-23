@@ -20,6 +20,8 @@ public class InternetSocketTest {
     new Thread() {
       public void run() {
         socket.start();
+        String str = socket.readSocketData();
+        socket.writeSocketData(str);
       }
     }.start();
 
@@ -44,7 +46,7 @@ public class InternetSocketTest {
     }
   }
 
-  @Test
+ @Test
   public void ServerShouldReturn404Error() throws Exception {
     java.net.Socket client = createSocket(5001);
 
