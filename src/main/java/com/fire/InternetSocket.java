@@ -24,8 +24,11 @@ public class InternetSocket implements Socket {
       PrintWriter out = new PrintWriter(socket.getOutputStream());
       BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       String input = in.readLine();
-
-      out.write("HTTP/1.1 404 Not Found\r\n");
+      if(input.equals("Test")) {
+        out.println(input);
+      } else {
+        out.write("HTTP/1.1 404 Not Found\r\n");
+      }
 
       out.flush();
     }
