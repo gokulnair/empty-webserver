@@ -18,7 +18,10 @@ public class Server {
   public void run() throws Exception {
     socket.start();
     String input = socket.readSocketData();
+
     String res = processRequest(input);
+
+
     socket.writeSocketData(res);
   }
 
