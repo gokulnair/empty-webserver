@@ -9,7 +9,6 @@ public class InternetSocket implements Socket {
   private SocketHandler handler;
   private java.net.Socket socket;
   public int portNumber;
-  private PrintWriter out = null;
   private ServerSocket serverSocket = null;
 
   public InternetSocket(SocketHandler handler, int portNumber) {
@@ -35,11 +34,9 @@ public class InternetSocket implements Socket {
 
   public String readSocketData() {
     try {
-      out = new PrintWriter(socket.getOutputStream());
       BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       String input = in.readLine();
       return input;
-
     }
     catch (Exception e)
     {
@@ -56,14 +53,8 @@ public class InternetSocket implements Socket {
 
   public void writeSocketData(String input) {
     try {
-      if(input.equals("Test")) {
-        out.println(input);
-      } else if(input.equals("GET / HTTP/1.1")) {
-        out.write("HTTP/1.1 200 OK\r\n");
-      } else {
-        out.write("HTTP/1.1 404 Not Found\r\n");
-      }
-
+      PrintWriter out = new PrintWriter(socket.getOutputStream());
+      out.write(input + "\r\n");
       out.flush();
     }
     catch (Exception e)

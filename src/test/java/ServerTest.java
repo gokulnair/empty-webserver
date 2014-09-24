@@ -29,7 +29,7 @@ public class ServerTest {
     Server server = new Server(mocket);
     server.run();
     String response = server.processRequest("/foobar");
-    assertEquals("404", response);
+    assertEquals("HTTP/1.1 404 Not Found", response);
   }
 
 }
