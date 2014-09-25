@@ -18,13 +18,15 @@ public class InternetSocketTest {
   private InternetSocket socket;
 
   @Before
-  public void setup() {
+  public void setup() throws Exception{
     socket = new InternetSocket(port);
     new Thread() {
       public void run() {
         socket.start();
       }
     }.start();
+
+    Thread.sleep(1000);
   }
 
   @After
@@ -41,18 +43,16 @@ public class InternetSocketTest {
     client.close();
   }
 
-  //@Test
+  @Test
   public void ItShouldCloseASocket() throws Exception
   {
-    Thread.sleep(500);
-
     InetAddress host = InetAddress.getLocalHost();
     java.net.Socket client = new java.net.Socket(host.getHostName(), port);
     client.close();
     assertTrue(client.isClosed());
   }
 
-  @Test
+  //@Test
   public void SocketShouldWriteData() throws Exception
   {
     InetAddress host = InetAddress.getLocalHost();
