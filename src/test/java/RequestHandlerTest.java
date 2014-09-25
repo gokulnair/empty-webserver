@@ -12,12 +12,20 @@ import static org.junit.Assert.assertEquals;
 public class RequestHandlerTest {
 
   @Test
-  public void ItShouldGetRequestData() throws Exception
+  public void ItShouldGetRequestMethod() throws Exception
   {
     RequestHandler requestHandler = new RequestHandler("GET / HTTP/1.1");
     assertEquals("GET", requestHandler.getMethod());
-    assertEquals("/", requestHandler.getUrl());
   }
 
+  @Test
+  public void ItShouldGetRequestPath() throws Exception
+  {
+    RequestHandler requestHandler = new RequestHandler("GET / HTTP/1.1");
+    assertEquals("/", requestHandler.getPath());
+  }
+
+
+  
 
 }

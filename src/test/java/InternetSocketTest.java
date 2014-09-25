@@ -44,7 +44,7 @@ public class InternetSocketTest {
   @Test
   public void ItShouldCloseASocket() throws Exception
   {
-    Thread.sleep(1000);
+    Thread.sleep(500);
 
     InetAddress host = InetAddress.getLocalHost();
     java.net.Socket client = new java.net.Socket(host.getHostName(), port);
@@ -58,10 +58,10 @@ public class InternetSocketTest {
     InetAddress host = InetAddress.getLocalHost();
     java.net.Socket client = new java.net.Socket(host.getHostName(), 5000);
 
-    socket.writeSocketData("Write this");
+    socket.writeSocketData("HTTP/1.1 200 OK");
     BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
-    assertEquals("Write this", in.readLine());
+    assertEquals("HTTP/1.1 200 OK", in.readLine());
 
     client.close();
   }
@@ -73,10 +73,10 @@ public class InternetSocketTest {
     java.net.Socket client = new java.net.Socket(host.getHostName(), 5000);
 
     PrintWriter out = new PrintWriter(client.getOutputStream());
-    out.println("Read this");
+    out.println("GET /foobar");
     out.flush();
 
-    assertEquals("Read this", socket.readSocketData());
+    assertEquals("GET /foobar", socket.readSocketData());
 
     client.close();
   }
