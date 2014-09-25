@@ -10,8 +10,10 @@ public class Server {
 
   public static void main(String[] args) throws Exception
   {
-      Server server = new Server(new InternetSocket(5000));
-      server.run();
+      while(true) {
+        Server server = new Server(new InternetSocket(5000));
+        server.run();
+      }
   }
 
   public void run() throws Exception {
@@ -19,7 +21,7 @@ public class Server {
 
     RequestHandler request = new RequestHandler(socket.readSocketData());
     ResponseHandler response = new ResponseHandler(request);
-    
+
     socket.writeSocketData(response.getData());
   }
 }
