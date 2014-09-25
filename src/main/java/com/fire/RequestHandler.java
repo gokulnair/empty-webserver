@@ -23,5 +23,7 @@ public class RequestHandler {
     return path;
   }
 
+  public String getRequest() { return request; }
+
 
 }

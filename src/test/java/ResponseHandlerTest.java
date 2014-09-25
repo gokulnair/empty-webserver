@@ -17,4 +17,20 @@ public class ResponseHandlerTest {
     assertEquals(request, response.getRequest());
   }
 
+  @Test
+  public void ItShouldReturnAResponse() throws Exception
+  {
+    RequestHandler request = new RequestHandler("GET /foobar HTTP/1.1");
+    ResponseHandler response = new ResponseHandler(request);
+    assertEquals("HTTP/1.1 404 Not Found", response.getContent());
+  }
+
+  @Test
+  public void ItShouldReturnA200OK() throws Exception
+  {
+    RequestHandler request = new RequestHandler("GET / HTTP/1.1");
+    ResponseHandler response = new ResponseHandler(request);
+    assertEquals("HTTP/1.1 200 OK", response.getContent());
+  }
+
 }

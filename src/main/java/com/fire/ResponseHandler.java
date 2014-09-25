@@ -14,4 +14,15 @@ public class ResponseHandler {
   public RequestHandler getRequest() {
     return request;
   }
+
+  public String getContent() {
+    String input = request.getRequest();
+
+    if(input.equals("GET / HTTP/1.1")) {
+      return new String("HTTP/1.1 200 OK");
+    } else {
+      return new String("HTTP/1.1 404 Not Found");
+    }
+  }
+
 }
