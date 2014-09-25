@@ -25,7 +25,7 @@ public class ResponseHandlerTest {
   @Test
   public void ItShouldReturnAResponse() throws Exception
   {
-    ResponseHandler response = processRequestHandler("GET /badurl HTTP/1.1");
+    ResponseHandler response = processRequestHandler("GET /foobar HTTP/1.1");
     assertEquals("HTTP/1.1 404 Not Found", response.getData());
   }
 

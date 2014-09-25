@@ -21,7 +21,7 @@ public class ResponseHandler {
     String result = "HTTP/1.1 404 Not Found";
 
     if (method.equals("GET")) {
-      if(!request.getPath().equals("/badurl"))
+      if(!request.getPath().equals("/foobar"))
         result = "HTTP/1.1 200 OK";
     } else if (method.equals("POST")) {
       result = "HTTP/1.1 200 OK";
