@@ -15,7 +15,7 @@ public class ResponseHandler {
     return request;
   }
 
-  public String getContent() {
+  public String getData() {
     String input = request.getRequest();
     String method = request.getMethod();
     String result = "HTTP/1.1 404 Not Found";

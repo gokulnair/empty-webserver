@@ -20,6 +20,6 @@ public class Server {
     RequestHandler request = new RequestHandler(socket.readSocketData());
     ResponseHandler response = new ResponseHandler(request);
     
-    socket.writeSocketData(response.getContent());
+    socket.writeSocketData(response.getData());
   }
 }

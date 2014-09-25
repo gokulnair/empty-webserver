@@ -26,14 +26,14 @@ public class ResponseHandlerTest {
   public void ItShouldReturnAResponse() throws Exception
   {
     ResponseHandler response = processRequestHandler("GET /badurl HTTP/1.1");
-    assertEquals("HTTP/1.1 404 Not Found", response.getContent());
+    assertEquals("HTTP/1.1 404 Not Found", response.getData());
   }
 
   @Test
   public void ItShouldReturnA200OK() throws Exception
   {
     ResponseHandler response = processRequestHandler("GET / HTTP/1.1");
-    assertEquals("HTTP/1.1 200 OK", response.getContent());
+    assertEquals("HTTP/1.1 200 OK", response.getData());
   }
 
   @Test
@@ -42,7 +42,7 @@ public class ResponseHandlerTest {
     String postPath = "POST /form HTTP/1.1 \n" + "foo=bar";
     RequestHandler request = new RequestHandler(postPath);
     ResponseHandler response = new ResponseHandler(request);
-    assertEquals("HTTP/1.1 200 OK", response.getContent());
+    assertEquals("HTTP/1.1 200 OK", response.getData());
   }
 
 
