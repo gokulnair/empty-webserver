@@ -52,7 +52,7 @@ public class InternetSocketTest {
     assertTrue(client.isClosed());
   }
 
-  //@Test
+  @Test
   public void SocketShouldWriteData() throws Exception
   {
     InetAddress host = InetAddress.getLocalHost();
