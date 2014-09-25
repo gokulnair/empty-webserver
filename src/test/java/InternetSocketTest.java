@@ -42,6 +42,17 @@ public class InternetSocketTest {
   }
 
   @Test
+  public void ItShouldCloseASocket() throws Exception
+  {
+    Thread.sleep(1000);
+
+    InetAddress host = InetAddress.getLocalHost();
+    java.net.Socket client = new java.net.Socket(host.getHostName(), port);
+    client.close();
+    assertTrue(client.isClosed());
+  }
+
+  @Test
   public void SocketShouldWriteData() throws Exception
   {
     InetAddress host = InetAddress.getLocalHost();
