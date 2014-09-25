@@ -37,13 +37,21 @@ public class ResponseHandlerTest {
   }
 
   @Test
-  public void ItShouldBeAbleToHandlePutMethod() throws Exception
+  public void ItShouldBeAbleToHandlePostMethod() throws Exception
   {
     String postPath = "POST /form HTTP/1.1 \n" + "foo=bar";
-    RequestHandler request = new RequestHandler(postPath);
-    ResponseHandler response = new ResponseHandler(request);
+    ResponseHandler response = processRequestHandler(postPath);
+
     assertEquals("HTTP/1.1 200 OK", response.getData());
   }
 
+  @Test
+  public void ItShouldBeAbleToHandlePutMethod() throws Exception
+  {
+    String putPath = "PUT /form HTTP/1.1 \n" + "foo=bar";
+    ResponseHandler response = processRequestHandler(putPath);
+
+    assertEquals("HTTP/1.1 200 OK", response.getData());
+  }
 
 }

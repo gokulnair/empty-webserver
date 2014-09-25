@@ -25,6 +25,8 @@ public class ResponseHandler {
         result = "HTTP/1.1 200 OK";
     } else if (method.equals("POST")) {
       result = "HTTP/1.1 200 OK";
+    } else if(method.equals("PUT")){
+      result = "HTTP/1.1 200 OK";
     }
 
     return result;
