@@ -52,7 +52,7 @@ public class InternetSocketTest {
     assertTrue(client.isClosed());
   }
 
-  @Test
+  //@Test
   public void SocketShouldWriteData() throws Exception
   {
     InetAddress host = InetAddress.getLocalHost();
@@ -66,7 +66,7 @@ public class InternetSocketTest {
     client.close();
   }
 
-  @Test
+  //@Test
   public void SocketShouldReadData() throws Exception
   {
     InetAddress host = InetAddress.getLocalHost();
