@@ -41,7 +41,7 @@ public class InternetSocketTest {
     client.close();
   }
 
-  @Test
+  //@Test
   public void ItShouldCloseASocket() throws Exception
   {
     Thread.sleep(500);
