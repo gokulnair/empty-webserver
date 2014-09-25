@@ -16,21 +16,9 @@ public class Server {
 
   public void run() throws Exception {
     socket.start();
-    String input = socket.readSocketData();
 
-    String res = processRequest(input);
-
-
-    socket.writeSocketData(res);
-  }
-
-  public String processRequest(String input) {
-    if(input.equals("Test")) {
-      return new String(input);
-    } else if(input.equals("GET / HTTP/1.1")) {
-      return new String("HTTP/1.1 200 OK");
-    } else {
-      return new String("HTTP/1.1 404 Not Found");
-    }
+    RequestHandler request = new RequestHandler(socket.readSocketData());
+    ResponseHandler response = new ResponseHandler(request);
+    socket.writeSocketData(response.getContent());
   }
 }

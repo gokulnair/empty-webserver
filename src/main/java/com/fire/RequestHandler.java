@@ -10,9 +10,11 @@ public class RequestHandler {
 
   public RequestHandler(String request) {
     this.request = request;
-    String[] requestArray = request.split(" ");
-    this.method = requestArray[0];
-    this.path = requestArray[1];
+    if(request.contains(" ") && request.length() > 0) {
+      String[] requestArray = request.split(" ");
+      this.method = requestArray[0];
+      this.path = requestArray[1];
+    }
   }
 
   public String getMethod() {

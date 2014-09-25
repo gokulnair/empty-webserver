@@ -20,18 +20,4 @@ public class ServerTest {
     server.run();
     assertTrue(mocket.Started);
   }
-
-  @Test
-  public void ItGet404() throws Exception {
-    server.run();
-    String response = server.processRequest("/foobar");
-    assertEquals("HTTP/1.1 404 Not Found", response);
-  }
-
-  @Test
-  public void ItGet200() throws Exception {
-    server.run();
-    String response = server.processRequest("GET / HTTP/1.1");
-    assertEquals("HTTP/1.1 200 OK", response);
-  }
 }
