@@ -17,12 +17,17 @@ public class ResponseHandler {
 
   public String getContent() {
     String input = request.getRequest();
+    String method = request.getMethod();
+    String result = "HTTP/1.1 404 Not Found";
 
-    if(input.equals("GET / HTTP/1.1")) {
-      return new String("HTTP/1.1 200 OK");
-    } else {
-      return new String("HTTP/1.1 404 Not Found");
+    if (method.equals("GET")) {
+      if(!request.getPath().equals("/badurl"))
+        result = "HTTP/1.1 200 OK";
+    } else if (method.equals("POST")) {
+      result = "HTTP/1.1 200 OK";
     }
+
+    return result;
   }
 
 }

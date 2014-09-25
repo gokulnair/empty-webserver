@@ -5,8 +5,8 @@ package com.fire;
  */
 public class RequestHandler {
   private String request;
-  private String path;
-  private String method;
+  private String path = new String("");
+  private String method = new String("");
 
   public RequestHandler(String request) {
     this.request = request;
