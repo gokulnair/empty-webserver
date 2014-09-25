@@ -1,5 +1,6 @@
 import com.fire.*;
 import com.fire.Socket;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,77 +10,64 @@ import java.io.PrintWriter;
 import java.net.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class InternetSocketTest {
 
-  private java.net.Socket createSocket(int portNumber) throws Exception {
-    InetAddress host = InetAddress.getLocalHost();
-    EchoHandler handler = new EchoHandler();
-    final Socket socket = new InternetSocket(handler, portNumber);
+  private int port = 5000;
+  private InternetSocket socket;
 
+  @Before
+  public void setup() {
+    socket = new InternetSocket(port);
     new Thread() {
       public void run() {
         socket.start();
-        String str = socket.readSocketData();
-        socket.writeSocketData(str);
       }
     }.start();
+  }
 
-    return new java.net.Socket(host.getHostName(), portNumber);
+  @After
+  public void tearDown() throws Exception{
+    socket.close();
   }
 
   @Test
-  public void StartsTheSocket() throws Exception {
-    java.net.Socket client = createSocket(5000);
-
-    try {
-      PrintWriter out = new PrintWriter(client.getOutputStream());
-      BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-
-      out.println("Test\n");
-      out.flush();
-
-      assertEquals("Test", in.readLine());
-    }
-    finally {
-      client.close();
-    }
+  public void ItShouldOpenASocket() throws Exception
+  {
+    InetAddress host = InetAddress.getLocalHost();
+    java.net.Socket client = new java.net.Socket(host.getHostName(), port);
+    assertTrue(client.isConnected());
+    client.close();
   }
 
-//@Test
-//  public void ServerShouldReturn404Error() throws Exception {
-//    java.net.Socket client = createSocket(5000);
-//
-//    try {
-//      PrintWriter out = new PrintWriter(client.getOutputStream());
-//      BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-//
-//      out.println("GET FOOBAR\n");
-//      out.flush();
-//
-//      assertEquals("HTTP/1.1 404 Not Found", in.readLine());
-//    }
-//    finally {
-//      client.close();
-//    }
-//  }
+  @Test
+  public void SocketShouldWriteData() throws Exception
+  {
+    InetAddress host = InetAddress.getLocalHost();
+    java.net.Socket client = new java.net.Socket(host.getHostName(), 5000);
 
-//  @Test
-//  public void ServerShouldReturn200OK() throws Exception
-//  {
-//    java.net.Socket client = createSocket(5002);
-//
-//    try {
-//      PrintWriter out = new PrintWriter(client.getOutputStream());
-//      BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-//
-//      out.println("GET / HTTP/1.1");
-//      out.flush();
-//
-//      assertEquals("HTTP/1.1 200 OK", in.readLine());
-//    }
-//    finally {
-//      client.close();
-//    }
-//  }
+    socket.writeSocketData("Write this");
+    BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+
+    assertEquals("Write this", in.readLine());
+
+    client.close();
+  }
+
+  @Test
+  public void SocketShouldReadData() throws Exception
+  {
+    InetAddress host = InetAddress.getLocalHost();
+    java.net.Socket client = new java.net.Socket(host.getHostName(), 5000);
+
+    PrintWriter out = new PrintWriter(client.getOutputStream());
+    out.println("Read this");
+    out.flush();
+
+    assertEquals("Read this", socket.readSocketData());
+
+    client.close();
+  }
+
 }

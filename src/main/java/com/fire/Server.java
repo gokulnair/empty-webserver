@@ -10,8 +10,7 @@ public class Server {
 
   public static void main(String[] args) throws Exception
   {
-      WebserviceHandler handler = new WebserviceHandler();
-      Server server = new Server(new InternetSocket(handler, 5000));
+      Server server = new Server(new InternetSocket(5000));
       server.run();
   }
 

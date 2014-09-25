@@ -6,13 +6,11 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 
 public class InternetSocket implements Socket {
-  private SocketHandler handler;
   private java.net.Socket socket;
   public int portNumber;
   private ServerSocket serverSocket = null;
 
-  public InternetSocket(SocketHandler handler, int portNumber) {
-    this.handler = handler;
+  public InternetSocket(int portNumber) {
     this.portNumber = portNumber;
   }
 
@@ -22,13 +20,29 @@ public class InternetSocket implements Socket {
       serverSocket = new ServerSocket(portNumber);
       socket = serverSocket.accept();
     } catch (Exception e) {
-      if (serverSocket != null) {
-        try {
-          serverSocket.close();
-        } catch (IOException e1) {
-          e1.printStackTrace();
-        }
+      close();
+    }
+  }
+
+  public void close() {
+    if (serverSocket != null)
+      try {
+        serverSocket.close();
+      } catch (IOException e1) {
+        e1.printStackTrace();
       }
+  }
+
+  public void writeSocketData(String input) {
+    try {
+      PrintWriter out = new PrintWriter(socket.getOutputStream());
+      out.println(input);
+
+      out.flush();
+    }
+    catch (Exception e)
+    {
+      close();
     }
   }
 
@@ -40,31 +54,8 @@ public class InternetSocket implements Socket {
     }
     catch (Exception e)
     {
-      if (serverSocket != null)
-        try {
-          serverSocket.close();
-        } catch (IOException e1) {
-          e1.printStackTrace();
-        }
+      close();
     }
-
     return new String();
-  }
-
-  public void writeSocketData(String input) {
-    try {
-      PrintWriter out = new PrintWriter(socket.getOutputStream());
-      out.write(input + "\r\n");
-      out.flush();
-    }
-    catch (Exception e)
-    {
-      if (serverSocket != null)
-        try {
-          serverSocket.close();
-        } catch (IOException e1) {
-          e1.printStackTrace();
-        }
-    }
   }
 }
