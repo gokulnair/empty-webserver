@@ -14,7 +14,6 @@ public class Server {
       Server server = new Server(new InternetSocket(5000));
       server.run();
     }
-
   }
 
   public void run() throws Exception {
@@ -23,6 +22,10 @@ public class Server {
     RequestHandler request = new RequestHandler(socket.readSocketData());
     ResponseHandler response = new ResponseHandler(request);
 
-    socket.writeSocketData(response.getData());
+    socket.writeSocketData(response.getResponse(
+      request.getMethod(),
+      request.getPath(),
+      ""));
+
   }
 }
