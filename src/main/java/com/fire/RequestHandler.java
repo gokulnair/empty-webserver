@@ -5,8 +5,8 @@ package com.fire;
  */
 public class RequestHandler {
   private String request;
-  private String path = new String("");
-  private String method = new String("");
+  private String path;
+  private String method;
 
   public RequestHandler(String request) {
     this.request = request;
@@ -14,6 +14,9 @@ public class RequestHandler {
       String[] requestArray = request.split(" ");
       this.method = requestArray[0];
       this.path = requestArray[1];
+    } else {
+      this.method = new String();
+      this.path = new String();
     }
   }
 
@@ -25,7 +28,7 @@ public class RequestHandler {
     return path;
   }
 
-  public String getRequest() { return request; }
-
-
+  public String getRequest() {
+    return request;
+  }
 }

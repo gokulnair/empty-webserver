@@ -16,7 +16,6 @@ public class ResponseHandler {
   }
 
   public String getData() {
-    String input = request.getRequest();
     String method = request.getMethod();
     String result = "HTTP/1.1 404 Not Found";
 
@@ -31,5 +30,4 @@ public class ResponseHandler {
 
     return result;
   }
-
 }
