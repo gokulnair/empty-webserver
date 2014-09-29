@@ -27,6 +27,7 @@ public class InternetSocket implements Socket {
   public void close() {
     if (serverSocket != null)
       try {
+        socket.close();
         serverSocket.close();
       } catch (IOException e1) {
         e1.printStackTrace();

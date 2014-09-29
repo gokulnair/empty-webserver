@@ -10,8 +10,9 @@ public class Server {
 
   public static void main(String[] args) throws Exception {
 
-    while (true){
-      Server server = new Server(new InternetSocket(5000));
+    Server server = new Server(new InternetSocket(5000));
+
+    while (true) {
       server.run();
     }
   }
