@@ -9,25 +9,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class ResponseHandlerTest {
 
-  public ResponseHandler processRequestHandler(String path) {
-    RequestHandler request = new RequestHandler(path);
-    return new ResponseHandler(request);
-  }
-
   @Test
   public void ItShouldGetAResponse() throws Exception
   {
-    ResponseHandler response = processRequestHandler("GET / HTTP/1.1");
+    ResponseHandler response = new ResponseHandler();
     assertEquals("HTTP/1.1 200 OK", response.getResponse("GET", "/", ""));
-  }
-
-
-  @Test
-  public void ItShouldReadARequest() throws Exception
-  {
-    RequestHandler request = new RequestHandler("GET / HTTP/1.1");
-    ResponseHandler response = new ResponseHandler(request);
-    assertEquals(request, response.getRequest());
   }
 
   @Test
@@ -63,7 +49,7 @@ public class ResponseHandlerTest {
   {
     ResponseHandler response = new ResponseHandler();
     assertEquals("HTTP/1.1 302 Found\n" +
-      "Location: http://localhost:5000", response.getResponse("GET", "/redirect", ""));
+      "Location: http://localhost:5000/", response.getResponse("GET", "/redirect", ""));
   }
 
   @Test
@@ -73,13 +59,13 @@ public class ResponseHandlerTest {
     response.getResponse("GET", "/redirect", "");
     String header = response.getHeaders("Location");
 
-    assertEquals("http://localhost:5000", header);
+    assertEquals("http://localhost:5000/", header);
   }
 
   @Test
   public void ItShouldSetHeadersWIthAGivenKeyValue() throws Exception
   {
-    ResponseHandler response = processRequestHandler("GET /redirect HTTP/1.1");
+    ResponseHandler response = new ResponseHandler();
     response.setHeader("Location", "localhost:5000");
     assertEquals("localhost:5000", response.getHeaders("Location"));
   }

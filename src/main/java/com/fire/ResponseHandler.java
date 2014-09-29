@@ -7,18 +7,7 @@ import java.util.HashMap;
  */
 public class ResponseHandler {
   
-  private RequestHandler request;
-  private String statusCode;
   private HashMap<String, String> headers = new HashMap<String, String>();
-  
-  public ResponseHandler(RequestHandler request) {
-    this.request = request; 
-  }
-  public ResponseHandler() { }
-
-  public RequestHandler getRequest() {
-    return request;
-  }
 
   public String getResponse(String method, String path, String body) {
     String result = "HTTP/1.1 404 Not Found";
@@ -27,7 +16,7 @@ public class ResponseHandler {
       if(!path.equals("/foobar"))
         result = "HTTP/1.1 200 OK";
       if(path.equals("/redirect")) {
-        setHeader("Location", "http://localhost:5000");
+        setHeader("Location", "http://localhost:5000/");
         result = buildResponse();
       }
     } else if (method.equals("POST")) {
@@ -35,7 +24,6 @@ public class ResponseHandler {
     } else if(method.equals("PUT")){
       result = "HTTP/1.1 200 OK";
     }
-
     return result;
   }
 
@@ -50,13 +38,5 @@ public class ResponseHandler {
 
   public void setHeader(String headerName, String value) {
     headers.put(headerName, value);
-  }
-
-  public String getStatusCode() {
-    return "";
-  }
-
-  public String setStatusCode() {
-    return "";
   }
 }

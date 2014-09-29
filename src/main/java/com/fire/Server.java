@@ -20,7 +20,7 @@ public class Server {
     socket.start();
 
     RequestHandler request = new RequestHandler(socket.readSocketData());
-    ResponseHandler response = new ResponseHandler(request);
+    ResponseHandler response = new ResponseHandler();
 
     socket.writeSocketData(response.getResponse(
       request.getMethod(),
