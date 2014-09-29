@@ -57,7 +57,7 @@ public class ResponseHandlerTest {
   {
     ResponseHandler response = new ResponseHandler();
     response.getResponse("GET", "/redirect", "");
-    String header = response.getHeaders("Location");
+    String header = response.getHeader("Location");
 
     assertEquals("http://localhost:5000/", header);
   }
@@ -67,7 +67,17 @@ public class ResponseHandlerTest {
   {
     ResponseHandler response = new ResponseHandler();
     response.setHeader("Location", "localhost:5000");
-    assertEquals("localhost:5000", response.getHeaders("Location"));
+    assertEquals("localhost:5000", response.getHeader("Location"));
+  }
+
+  @Test
+  public void ItShouldReturnAStringOfHeaders() throws Exception
+  {
+    ResponseHandler response = new ResponseHandler();
+    response.setHeader("Location", "localhost:5000");
+    response.setHeader("Content-Type", "application/JSON");
+    assertEquals("Location: localhost:5000\nContent-Type: application/JSON",
+      response.getHeaders());
   }
 
 

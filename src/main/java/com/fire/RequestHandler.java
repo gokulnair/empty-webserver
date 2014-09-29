@@ -4,12 +4,10 @@ package com.fire;
  * Created by charles.zhang on 9/24/14.
  */
 public class RequestHandler {
-  private String request;
   private String path;
   private String method;
 
   public RequestHandler(String request) {
-    this.request = request;
     if(request.contains(" ") && request.length() > 0) {
       String[] requestArray = request.split(" ");
       this.method = requestArray[0];
@@ -28,7 +26,4 @@ public class RequestHandler {
     return path;
   }
 
-  public String getRequest() {
-    return request;
-  }
 }
