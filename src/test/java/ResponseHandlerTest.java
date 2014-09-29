@@ -54,4 +54,21 @@ public class ResponseHandlerTest {
     assertEquals("HTTP/1.1 200 OK", response.getData());
   }
 
+  @Test
+  public void ItShouldReturn302ForRedirects() throws Exception
+  {
+    ResponseHandler response = processRequestHandler("GET /redirect HTTP/1.1");
+    assertEquals("HTTP/1.1 302 Found\n" +
+      "Location: http://locahost:5000", response.getData());
+  }
+
+  @Test
+  public void ItShouldReturnaLocationHeaderForRedirects() throws Exception
+  {
+    ResponseHandler response = processRequestHandler("GET /redirect HTTP/1.1");
+    String header = response.getHeaders("Location");
+    assertEquals("localhost:5000", header);
+  }
+
+
 }
