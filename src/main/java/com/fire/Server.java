@@ -8,11 +8,12 @@ public class Server {
       this.socket = socket;
   }
 
-  public static void main(String[] args) throws Exception
-  {
+  public static void main(String[] args) throws Exception {
 
-    Server server = new Server(new InternetSocket(5000));
-    server.run();
+    while (true){
+      Server server = new Server(new InternetSocket(5000));
+      server.run();
+    }
 
   }
 

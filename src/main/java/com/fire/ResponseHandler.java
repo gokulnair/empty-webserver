@@ -23,7 +23,7 @@ public class ResponseHandler {
       if(!request.getPath().equals("/foobar"))
         result = "HTTP/1.1 200 OK";
       if(request.getPath().equals("/redirect"))
-        result = "HTTP/1.1 302 Found\nLocation: http://locahost:5000";
+        result = "HTTP/1.1 302 Found\nLocation: http://localhost:5000/";
     } else if (method.equals("POST")) {
       result = "HTTP/1.1 200 OK";
     } else if(method.equals("PUT")){
