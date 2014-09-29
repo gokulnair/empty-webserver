@@ -63,6 +63,19 @@ public class ResponseHandlerTest {
   }
 
   @Test
+  public void ItShouldHandle405CodesForAGivenMethod() throws Exception
+  {
+    ResponseHandler response = new ResponseHandler();
+
+    assertEquals("HTTP/1.1 405 Method Not Allowed",
+      response.getResponse("PUT", "/file1", ""));
+
+    assertEquals("HTTP/1.1 405 Method Not Allowed",
+      response.getResponse("POST", "/text-file.txt", ""));
+  }
+
+
+  @Test
   public void ItShouldSetHeadersWIthAGivenKeyValue() throws Exception
   {
     ResponseHandler response = new ResponseHandler();

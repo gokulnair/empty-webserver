@@ -13,12 +13,18 @@ public class ResponseHandler {
   private HashMap<String, String> headers = new HashMap<String, String>();
 
   public String getResponse(String method, String path, String body) {
+
     if (path.equals("/foobar"))
       setStatusCode(404);
 
     else if (path.equals("/redirect")) {
       setStatusCode(302);
       setHeader("Location", "http://localhost:5000/");
+    }
+
+    else if (path.equals("/file1") && method.equals("PUT") ||
+      path.equals("/text-file.txt") && method.equals("POST")) {
+      setStatusCode(405);
     }
 
     else
@@ -66,8 +72,9 @@ public class ResponseHandler {
 
   public String getStatusMessage() {
     if (statusCode == 200) return "OK";
-    else if (statusCode == 404) return "Not Found";
     else if (statusCode == 302) return "Found";
+    else if (statusCode == 404) return "Not Found";
+    else if (statusCode == 405) return "Method Not Allowed";
     else return "";
   }
 }
