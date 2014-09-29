@@ -74,6 +74,15 @@ public class ResponseHandlerTest {
       response.getResponse("POST", "/text-file.txt", ""));
   }
 
+  @Test
+  public void ItShouldAddAllowHeaderToResponse() throws Exception
+  {
+    ResponseHandler response = new ResponseHandler();
+    response.getResponse("OPTIONS", "/method_options", "");
+    String header = response.getHeader("Allow");
+    assertEquals("GET,HEAD,POST,OPTIONS,PUT", header);
+  }
+  
 
   @Test
   public void ItShouldSetHeadersWIthAGivenKeyValue() throws Exception

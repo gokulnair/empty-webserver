@@ -27,6 +27,11 @@ public class ResponseHandler {
       setStatusCode(405);
     }
 
+    else if (path.equals("/method_options") && method.equals("OPTIONS")) {
+      setStatusCode(200);
+      setHeader("Allow", "GET,HEAD,POST,OPTIONS,PUT");
+    }
+
     else
       setStatusCode(200);
 
