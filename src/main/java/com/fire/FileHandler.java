@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,8 +30,15 @@ public class FileHandler {
     f = new File(currentDir);
     paths = f.listFiles();
 
-    for (File path : paths) {
-      files += path.getName() + "\n";
+    String[] temp = new String[paths.length];
+    for(int i = 0; i < paths.length; i++) {
+      temp[i] = paths[i].getName();
+    }
+
+    Arrays.sort(temp);
+
+    for (String path : temp) {
+      files += path + "\n";
     }
 
     return files;
