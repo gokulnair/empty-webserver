@@ -43,4 +43,11 @@ public class FileHandler {
 
     return files;
   }
+
+  public boolean exists(String fileName) {
+    Path path = Paths.get(fileName);
+    return Files.exists(path);
+  }
+
+
 }

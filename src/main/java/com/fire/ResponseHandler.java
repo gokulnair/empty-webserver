@@ -57,6 +57,7 @@ public class ResponseHandler {
     return buildResponse();
   }
 
+  // Refactor buildResponse to not rely on internal calls
   public String buildResponse() {
     String response;
     String headers = getHeaders();

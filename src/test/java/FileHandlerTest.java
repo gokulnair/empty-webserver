@@ -1,7 +1,11 @@
 import org.junit.Test;
 
 import com.fire.FileHandler;
+
+import java.nio.file.Files;
+
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by jonathan.alviar on 9/30/14.
@@ -14,9 +18,9 @@ public class FileHandlerTest {
     String currentDir = System.getProperty("user.dir");
     String content = file.read(currentDir+ "/public/file1");
     assertEquals("file1 contents\n" +
-                 "More Lines For testing\n" +
-                 "Hello World\n" +
-                 "test line\n", content);
+      "More Lines For testing\n" +
+      "Hello World\n" +
+      "test line\n", content);
 
   }
 
@@ -34,4 +38,15 @@ public class FileHandlerTest {
                  "patch-content.txt\n" +
                  "text-file.txt\n", folderStruct);
   }
+
+  @Test
+  public void ItShouldCheckIfAFileExist() throws Exception
+  {
+    FileHandler fileHandler = new FileHandler();
+    String currentDir = System.getProperty("user.dir");
+    String file = currentDir + "/public/file1";
+    assertTrue(fileHandler.exists(file));
+  }
+
+
 }
