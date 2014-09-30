@@ -82,7 +82,6 @@ public class ResponseHandlerTest {
     String header = response.getHeader("Allow");
     assertEquals("GET,HEAD,POST,OPTIONS,PUT", header);
   }
-  
 
   @Test
   public void ItShouldSetHeadersWIthAGivenKeyValue() throws Exception
@@ -102,6 +101,13 @@ public class ResponseHandlerTest {
       response.getHeaders());
   }
 
+  @Test
+  public void ItShouldGetBodyResponse() throws Exception
+  {
+    ResponseHandler response = new ResponseHandler();
+    response.setBodyResponse("test");
+    assertEquals("test", response.getBodyResponse());
+  }
 
 
 }

@@ -1,7 +1,9 @@
 package com.fire;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by jonathan.alviar on 9/25/14.
@@ -10,9 +12,10 @@ public class ResponseHandler {
 
   private static final String protocol = "HTTP/1.1";
   private int statusCode;
+  private String body = "";
   private HashMap<String, String> headers = new HashMap<String, String>();
 
-  public String getResponse(String method, String path, String body) {
+  public String getResponse(String method, String path, String body) throws IOException {
 
     if (path.equals("/foobar"))
       setStatusCode(404);
@@ -20,6 +23,13 @@ public class ResponseHandler {
     else if (path.equals("/redirect")) {
       setStatusCode(302);
       setHeader("Location", "http://localhost:5000/");
+    }
+
+    else if (path.equals("/file1") && method.equals("GET")) {
+      setStatusCode(200);
+      FileHandler file = new FileHandler();
+      List<String> content = file.read("/Users/jonathan.alviar/tmol/8thLightTrain/cob_spec/public/file1");
+      setBodyResponse(content.get(0));
     }
 
     else if (path.equals("/file1") && method.equals("PUT") ||
@@ -40,9 +50,12 @@ public class ResponseHandler {
 
   public String buildResponse() {
     String response = protocol + " " + getStatusCode() + " " + getStatusMessage();
+    String body = getBodyResponse();
     if(!getHeaders().equals("")){
       response+= "\n"+ getHeaders();
     }
+    if (body.length() > 0)
+      response+= "\r\n\r\n" + getBodyResponse();
     return response;
   }
 
@@ -81,5 +94,13 @@ public class ResponseHandler {
     else if (statusCode == 404) return "Not Found";
     else if (statusCode == 405) return "Method Not Allowed";
     else return "";
+  }
+
+  public void setBodyResponse(String body) {
+    this.body = body;
+  }
+
+  public String getBodyResponse() {
+    return body;
   }
 }
