@@ -28,8 +28,9 @@ public class ResponseHandler {
     else if (path.equals("/file1") && method.equals("GET")) {
       setStatusCode(200);
       FileHandler file = new FileHandler();
-      List<String> content = file.read("/Users/jonathan.alviar/tmol/8thLightTrain/cob_spec/public/file1");
-      setBodyResponse(content.get(0));
+      String currentDir = System.getProperty("user.dir");
+      String content = file.read(currentDir+ "/public/file1");
+      setBodyResponse(content);
     }
 
     else if (path.equals("/file1") && method.equals("PUT") ||

@@ -16,18 +16,17 @@ import static org.junit.Assert.assertTrue;
 public class FileHandlerTest {
 
   @Test
-  public void ItShouldReadAFile() throws Exception
+  public void ItShouldReadAllTheDataInAFile() throws Exception
   {
     FileHandler file = new FileHandler();
     String currentDir = System.getProperty("user.dir");
-    List<String> content = file.read(currentDir+ "/public/file1");
-    if (content.size() > 0) {
-      assertEquals("file1 contents", content.get(0));
-    } else {
-      assertTrue(false);
-    }
-  }
+    String content = file.read(currentDir+ "/public/file1");
+    assertEquals("file1 contents\n" +
+                 "More Lines For testing\n" +
+                 "Hello World\n" +
+                 "test line\n", content);
 
+  }
 
 
 }

@@ -11,8 +11,13 @@ import java.util.List;
  */
 public class FileHandler {
 
-  public List<String> read(String fileName) throws IOException {
+  public String read(String fileName) throws IOException {
     Path path = Paths.get(fileName);
-    return Files.readAllLines(path);
+    String content = "";
+    List<String> contentData = Files.readAllLines(path);
+    for(String line: contentData ){
+      content+= line + "\n";
+    }
+    return content;
   }
 }
