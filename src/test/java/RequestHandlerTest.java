@@ -32,6 +32,10 @@ public class RequestHandlerTest {
     requestHandler.parse("POST /form HTTP/1.1 ");
     assertEquals("POST", requestHandler.getMethod());
     assertEquals("/form", requestHandler.getPath());
+
+    requestHandler.parse("");
+    assertEquals("POST", requestHandler.getMethod());
+    assertEquals("/form", requestHandler.getPath());
   }
 
 

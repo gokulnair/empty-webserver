@@ -12,10 +12,11 @@ public class RequestHandler {
   }
 
   public void parse(String request) {
-    String[] requestArray = request.split(" ");
-
-    setMethod(requestArray[0]);
-    setPath(requestArray[1]);
+    if(request.length() > 0) {
+      String[] requestArray = request.split(" ");
+      setMethod(requestArray[0]);
+      setPath(requestArray[1]);
+    }
   }
 
   public String getMethod() {

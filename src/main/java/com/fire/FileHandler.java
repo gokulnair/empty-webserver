@@ -46,7 +46,7 @@ public class FileHandler {
 
   public boolean exists(String fileName) {
     Path path = Paths.get(fileName);
-    return Files.exists(path);
+    return Files.exists(path) && !Files.isDirectory(path);
   }
 
 

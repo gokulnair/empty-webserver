@@ -18,41 +18,41 @@ public class ResponseHandler {
 
   public String getResponse(String method, String path, String body) throws IOException {
 
-    if (path.equals("/foobar"))
-      setStatusCode(404);
+    FileHandler isFile = new FileHandler();
+    String filePath = currentDir + "/public/" + path;
 
-    else if (path.equals("/redirect")) {
-      setStatusCode(302);
-      setHeader("Location", "http://localhost:5000/");
-    }
-
-    else if (path.equals("/file1") && method.equals("GET")) {
+    if (isFile.exists(filePath) && method.equals("GET")) {
       setStatusCode(200);
-      FileHandler file = new FileHandler();
-      String content = file.read(currentDir + "/public/" + path);
+      String content = isFile.read(filePath);
       setBodyResponse(content);
-    }
 
-    else if (path.equals("/") && method.equals("GET")) {
-      setStatusCode(200);
-      FileHandler file = new FileHandler();
-      String currentDir = System.getProperty("user.dir");
-      String content = file.getFolderStructure(currentDir+ "/public");
-      setBodyResponse(content);
-    }
+    } else {
 
-    else if (path.equals("/file1") && method.equals("PUT") ||
-      path.equals("/text-file.txt") && method.equals("POST")) {
-      setStatusCode(405);
-    }
+      if (path.equals("/foobar")) {
+        setStatusCode(404);
 
-    else if (path.equals("/method_options") && method.equals("OPTIONS")) {
-      setStatusCode(200);
-      setHeader("Allow", "GET,HEAD,POST,OPTIONS,PUT");
-    }
+      } else if (path.equals("/redirect")) {
+        setStatusCode(302);
+        setHeader("Location", "http://localhost:5000/");
 
-    else
-      setStatusCode(200);
+      } else if (path.equals("/") && method.equals("GET")) {
+        setStatusCode(200);
+        FileHandler file = new FileHandler();
+        String currentDir = System.getProperty("user.dir");
+        String content = file.getFolderStructure(currentDir + "/public");
+        setBodyResponse(content);
+
+      } else if (path.equals("/file1") && method.equals("PUT") ||
+        path.equals("/text-file.txt") && method.equals("POST")) {
+        setStatusCode(405);
+
+      } else if (path.equals("/method_options") && method.equals("OPTIONS")) {
+        setStatusCode(200);
+        setHeader("Allow", "GET,HEAD,POST,OPTIONS,PUT");
+
+      } else
+        setStatusCode(200);
+    }
 
     return buildResponse();
   }
