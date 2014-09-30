@@ -19,13 +19,20 @@ public class RequestHandlerTest {
   }
 
   @Test
-  public void ItShouldGetRequestPath() throws Exception
+  public void ItShouldSetRequestMethod() throws Exception
   {
     RequestHandler requestHandler = new RequestHandler("GET / HTTP/1.1");
-    assertEquals("/", requestHandler.getPath());
+    assertEquals("GET", requestHandler.getMethod() );
   }
 
+  @Test
+  public void ItShouldParseRequestCorrectly() throws Exception
+  {
+    RequestHandler requestHandler = new RequestHandler("GET / HTTP/1.1");
+    requestHandler.parse("POST /form HTTP/1.1 ");
+    assertEquals("POST", requestHandler.getMethod());
+    assertEquals("/form", requestHandler.getPath());
+  }
 
-  
 
 }

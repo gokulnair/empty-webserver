@@ -13,6 +13,7 @@ public class ResponseHandler {
   private static final String protocol = "HTTP/1.1";
   private int statusCode;
   private String body = "";
+  private String currentDir = System.getProperty("user.dir");
   private HashMap<String, String> headers = new HashMap<String, String>();
 
   public String getResponse(String method, String path, String body) throws IOException {
@@ -28,8 +29,7 @@ public class ResponseHandler {
     else if (path.equals("/file1") && method.equals("GET")) {
       setStatusCode(200);
       FileHandler file = new FileHandler();
-      String currentDir = System.getProperty("user.dir");
-      String content = file.read(currentDir+ "/public/file1");
+      String content = file.read(currentDir + "/public/" + path);
       setBodyResponse(content);
     }
 

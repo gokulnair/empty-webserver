@@ -109,5 +109,12 @@ public class ResponseHandlerTest {
     assertEquals("test", response.getBodyResponse());
   }
 
+  @Test
+  public void ItShouldBuildTheResponseString() throws Exception
+  {
+    ResponseHandler response = new ResponseHandler();
+
+  }
+
 
 }

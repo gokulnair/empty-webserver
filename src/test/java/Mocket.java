@@ -10,7 +10,7 @@ public class Mocket implements Socket {
 
   @Override
   public String readSocketData() {
-    return new String("404");
+    return "GET /file1 HTTP/1.1";
   }
 
   @Override

@@ -19,7 +19,7 @@ public class Server {
 
   public void run() throws Exception {
     socket.start();
-
+    System.out.println(socket.readSocketData());
     RequestHandler request = new RequestHandler(socket.readSocketData());
     ResponseHandler response = new ResponseHandler();
 
