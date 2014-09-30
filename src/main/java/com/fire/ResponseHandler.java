@@ -49,13 +49,18 @@ public class ResponseHandler {
   }
 
   public String buildResponse() {
-    String response = protocol + " " + getStatusCode() + " " + getStatusMessage();
+    String response;
+    String headers = getHeaders();
     String body = getBodyResponse();
+
+    response = protocol + " " + getStatusCode() + " " + getStatusMessage();
+
     if(!getHeaders().equals("")){
-      response+= "\n"+ getHeaders();
+      response+= "\n"+ headers;
     }
     if (body.length() > 0)
       response+= "\r\n\r\n" + getBodyResponse();
+
     return response;
   }
 
