@@ -39,7 +39,7 @@ public class ResponseHandler {
         setStatusCode(200);
         FileHandler file = new FileHandler();
         String currentDir = System.getProperty("user.dir");
-        String content = file.getFolderStructure(currentDir + "/public");
+        String content = file.getFolderStructureUrl(currentDir + "/public");
         setBodyResponse(content);
 
       } else if (path.equals("/file1") && method.equals("PUT") ||

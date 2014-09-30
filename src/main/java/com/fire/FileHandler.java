@@ -49,5 +49,24 @@ public class FileHandler {
     return Files.exists(path) && !Files.isDirectory(path);
   }
 
+  public String getFolderStructureUrl(String currentDir) throws IOException {
+    File f = null;
+    File[] paths;
+    String files = new String();
+    f = new File(currentDir);
+    paths = f.listFiles();
 
+    String[] temp = new String[paths.length];
+    for(int i = 0; i < paths.length; i++) {
+      temp[i] = paths[i].getName();
+    }
+
+    Arrays.sort(temp);
+
+    for (String path : temp) {
+      files += String.format( "<a href=\"%s\">%s</a>", path, path) + "\n";
+    }
+
+    return files;
+  }
 }
