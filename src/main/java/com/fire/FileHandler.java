@@ -1,5 +1,6 @@
 package com.fire;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,5 +20,19 @@ public class FileHandler {
       content+= line + "\n";
     }
     return content;
+  }
+
+  public String getFolderStructure(String currentDir) throws IOException {
+    File f = null;
+    File[] paths;
+    String files = new String();
+    f = new File(currentDir);
+    paths = f.listFiles();
+
+    for (File path : paths) {
+      files += path.getName() + "\n";
+    }
+
+    return files;
   }
 }

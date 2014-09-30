@@ -1,14 +1,7 @@
 import org.junit.Test;
 
 import com.fire.FileHandler;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-
 import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by jonathan.alviar on 9/30/14.
@@ -16,8 +9,7 @@ import static org.junit.Assert.assertTrue;
 public class FileHandlerTest {
 
   @Test
-  public void ItShouldReadAllTheDataInAFile() throws Exception
-  {
+  public void ItShouldReadAllTheDataInAFile() throws Exception {
     FileHandler file = new FileHandler();
     String currentDir = System.getProperty("user.dir");
     String content = file.read(currentDir+ "/public/file1");
@@ -28,5 +20,18 @@ public class FileHandlerTest {
 
   }
 
-
+  @Test
+  public void ItShowFolderStrcuture() throws Exception {
+    FileHandler fileHandler = new FileHandler();
+    String currentDir = System.getProperty("user.dir");
+    String folderStruct = fileHandler.getFolderStructure(currentDir + "/public");
+    assertEquals("file1\n" +
+                 "file2\n" +
+                 "image.gif\n" +
+                 "image.jpeg\n" +
+                 "image.png\n" +
+                 "partial_content.txt\n" +
+                 "patch-content.txt\n" +
+                 "text-file.txt\n", folderStruct);
+  }
 }

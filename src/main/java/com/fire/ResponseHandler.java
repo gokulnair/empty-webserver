@@ -33,6 +33,14 @@ public class ResponseHandler {
       setBodyResponse(content);
     }
 
+    else if (path.equals("/") && method.equals("GET")) {
+      setStatusCode(200);
+      FileHandler file = new FileHandler();
+      String currentDir = System.getProperty("user.dir");
+      String content = file.getFolderStructure(currentDir+ "/public");
+      setBodyResponse(content);
+    }
+
     else if (path.equals("/file1") && method.equals("PUT") ||
       path.equals("/text-file.txt") && method.equals("POST")) {
       setStatusCode(405);

@@ -13,7 +13,7 @@ public class ResponseHandlerTest {
   public void ItShouldGetAResponse() throws Exception
   {
     ResponseHandler response = new ResponseHandler();
-    assertEquals("HTTP/1.1 200 OK", response.getResponse("GET", "/", ""));
+    assertEquals("HTTP/1.1 200 OK", response.getResponse("GET", "/a", ""));
   }
 
   @Test
@@ -27,7 +27,7 @@ public class ResponseHandlerTest {
   public void ItShouldReturnA200OK() throws Exception
   {
     ResponseHandler response = new ResponseHandler();
-    assertEquals("HTTP/1.1 200 OK", response.getResponse("GET", "/", ""));
+    assertEquals("HTTP/1.1 200 OK", response.getResponse("GET", "/a", ""));
   }
 
   @Test
