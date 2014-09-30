@@ -21,7 +21,7 @@ public class ResponseHandler {
     FileHandler isFile = new FileHandler();
     String filePath = currentDir + "/public/" + path;
 
-    if (isFile.exists(filePath) && method.equals("GET")) {
+    if (isFile.exists(filePath) && method.equals("GET") && !path.contains("image")) {
       setStatusCode(200);
       String content = isFile.read(filePath);
       setBodyResponse(content);
