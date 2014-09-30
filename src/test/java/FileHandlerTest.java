@@ -19,7 +19,8 @@ public class FileHandlerTest {
   public void ItShouldReadAFile() throws Exception
   {
     FileHandler file = new FileHandler();
-    List<String> content = file.read("/Users/jonathan.alviar/tmol/8thLightTrain/cob_spec/public/file1");
+    String currentDir = System.getProperty("user.dir");
+    List<String> content = file.read(currentDir+ "/public/file1");
     if (content.size() > 0) {
       assertEquals("file1 contents", content.get(0));
     } else {
