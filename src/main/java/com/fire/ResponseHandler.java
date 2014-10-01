@@ -1,6 +1,8 @@
 package com.fire;
 
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,7 +18,7 @@ public class ResponseHandler {
   private String currentDir = System.getProperty("user.dir");
   private HashMap<String, String> headers = new HashMap<String, String>();
 
-  public String getResponse(String method, String path, String body) throws IOException {
+  public String getResponse(String method, String path, String body) throws Exception {
 
     FileHandler isFile = new FileHandler();
     String filePath = currentDir + "/public/" + path;
@@ -27,6 +29,18 @@ public class ResponseHandler {
       setBodyResponse(content);
 
     } else {
+      String queryStr = getQuery(path);
+      if((queryStr != null) && !queryStr.isEmpty()) {
+        String [] queries = queryStr.split("&");
+        String content = new String();
+        for(String str: queries) {
+          String[] temp = str.split("=");
+          content += decodeParameters(temp[0]) + " = " + decodeParameters(temp[1]) + "\n";
+        }
+        setStatusCode(200);
+        setBodyResponse(content);
+        return buildResponse();
+      }
 
       if (path.equals("/foobar")) {
         setStatusCode(404);
@@ -117,5 +131,19 @@ public class ResponseHandler {
 
   public String getBodyResponse() {
     return body;
+  }
+
+  public String decodeParameters(String queryStr) throws Exception {
+    return URLDecoder.decode(queryStr, "UTF-8");
+  }
+
+  public String getQuery(String sUrl) {
+    try {
+      URL url = new URL("http://www.aaa.com:8080/" + sUrl);
+      return url.getQuery();
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      return new String();
+    }
   }
 }

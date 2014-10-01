@@ -1,6 +1,7 @@
-import com.fire.RequestHandler;
 import com.fire.ResponseHandler;
 import org.junit.Test;
+
+import java.net.URLEncoder;
 
 import static org.junit.Assert.assertEquals;
 
@@ -116,5 +117,18 @@ public class ResponseHandlerTest {
 
   }
 
+  @Test
+  public void ItShouldDecodeParameters() throws Exception
+  {
+    ResponseHandler response = new ResponseHandler();
+    assertEquals("abc", response.decodeParameters(URLEncoder.encode("abc", "UTF-8")));
+  }
+
+  @Test
+  public void ItShouldGetQuery() throws Exception
+  {
+    ResponseHandler response = new ResponseHandler();
+    assertEquals("name=networking", response.getQuery("/index.html?name=networking#DOWNLOADING"));
+  }
 
 }
