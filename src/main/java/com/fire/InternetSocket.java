@@ -35,8 +35,8 @@ public class InternetSocket implements Socket {
     try {
       PrintWriter out = new PrintWriter(socket.getOutputStream());
       out.println(input);
-
       out.flush();
+      out.close();
     }
     catch (Exception e)
     {
@@ -50,6 +50,7 @@ public class InternetSocket implements Socket {
       out.write(byteArray);
       out.write("\n".getBytes());
       out.flush();
+      out.close();
     }
     catch (Exception e)
     {
