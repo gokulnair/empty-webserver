@@ -46,9 +46,9 @@ public class InternetSocket implements Socket {
 
   public void writeSocketData(byte[] byteArray) {
     try {
-      OutputStream out = new BufferedOutputStream(socket.getOutputStream());
+      OutputStream out = socket.getOutputStream();
       out.write(byteArray);
-
+      out.write("\n".getBytes());
       out.flush();
     }
     catch (Exception e)

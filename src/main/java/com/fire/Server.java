@@ -24,24 +24,10 @@ public class Server {
     RequestHandler request = new RequestHandler(socket.readSocketData());
     ResponseHandler response = new ResponseHandler();
 
-    String data;
-    ArrayList<String> methods = new ArrayList<String>();
-    methods.add("POST");
-    methods.add("PUT");
-    methods.add("OPTION");
+    socket.writeSocketData(response.getResponse(
+      request.getMethod(),
+      request.getPath(),
+      ""));
 
-    System.out.println(request.getMethod());
-    if(methods.contains(request.getMethod())) {
-      data = new String(response.getResponse(
-        request.getMethod(),
-        request.getPath(),
-        ""));
-      socket.writeSocketData(data);
-    } else {
-      socket.writeSocketData(response.getResponse(
-        request.getMethod(),
-        request.getPath(),
-        ""));
-    }
   }
 }
