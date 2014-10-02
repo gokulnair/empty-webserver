@@ -3,6 +3,11 @@ package com.fire;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -14,19 +19,18 @@ public class ResponseHandler {
 
   private static final String protocol = "HTTP/1.1";
   private int statusCode;
-  private String body = "";
+  private byte[] body;
   private String currentDir = System.getProperty("user.dir");
   private HashMap<String, String> headers = new HashMap<String, String>();
+  FileHandler isFile = new FileHandler();
 
-  public String getResponse(String method, String path, String body) throws Exception {
-
-    FileHandler isFile = new FileHandler();
+  public byte[] getResponse(String method, String path, String body) throws Exception {
     String filePath = currentDir + "/public/" + path;
 
-    if (isFile.exists(filePath) && method.equals("GET") && !path.contains("image")) {
+    if (isFile.exists(filePath) && method.equals("GET")) {
       setStatusCode(200);
-      String content = isFile.read(filePath);
-      setBodyResponse(content);
+      byte[] data = isFile.read(currentDir +  "/public/" + path);
+      setBodyResponse(data);
 
     } else {
       String queryStr = getQuery(path);
@@ -44,6 +48,7 @@ public class ResponseHandler {
 
       if (path.equals("/foobar")) {
         setStatusCode(404);
+        setBodyResponse("<html><body>404 Not Found</body></html>");
 
       } else if (path.equals("/redirect")) {
         setStatusCode(302);
@@ -64,28 +69,35 @@ public class ResponseHandler {
         setStatusCode(200);
         setHeader("Allow", "GET,HEAD,POST,OPTIONS,PUT");
 
-      } else
+      } else {
         setStatusCode(200);
+      }
     }
 
     return buildResponse();
   }
 
   // Refactor buildResponse to not rely on internal calls
-  public String buildResponse() {
+  public byte[] buildResponse() {
     String response;
     String headers = getHeaders();
-    String body = getBodyResponse();
+    byte[] body = getBodyResponse();
 
     response = protocol + " " + getStatusCode() + " " + getStatusMessage();
 
     if(!getHeaders().equals("")){
       response+= "\n"+ headers;
     }
-    if (body.length() > 0)
-      response+= "\r\n\r\n" + getBodyResponse();
+    if(body != null)
+      response+= "\r\n\r\n";
+    else
+      body = new byte[1];
 
-    return response;
+    byte[] data = response.getBytes(Charset.forName("UTF-8"));
+    byte[] outputToSend = new byte[data.length + body.length];
+    System.arraycopy(data, 0, outputToSend, 0, data.length);
+    System.arraycopy(body, 0, outputToSend, data.length, body.length);
+    return outputToSend;
   }
 
   public String getHeaders(){
@@ -126,10 +138,14 @@ public class ResponseHandler {
   }
 
   public void setBodyResponse(String body) {
+    this.body = body.getBytes(Charset.forName("UTF-8"));
+  }
+
+  public void setBodyResponse(byte[] body) {
     this.body = body;
   }
 
-  public String getBodyResponse() {
+  public byte[] getBodyResponse() {
     return body;
   }
 

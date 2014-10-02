@@ -13,14 +13,10 @@ import java.util.List;
  */
 public class FileHandler {
 
-  public String read(String fileName) throws IOException {
+  public byte[] read(String fileName) throws IOException {
     Path path = Paths.get(fileName);
-    String content = "";
-    List<String> contentData = Files.readAllLines(path);
-    for(String line: contentData ){
-      content+= line + "\n";
-    }
-    return content;
+    byte[] data = Files.readAllBytes(path);
+    return data;
   }
 
   public String getFolderStructure(String currentDir) throws IOException {

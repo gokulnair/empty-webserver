@@ -14,43 +14,51 @@ public class ResponseHandlerTest {
   public void ItShouldGetAResponse() throws Exception
   {
     ResponseHandler response = new ResponseHandler();
-    assertEquals("HTTP/1.1 200 OK", response.getResponse("GET", "/a", ""));
+    byte[] data = response.getResponse("GET", "/a", "");
+    assertEquals("HTTP/1.1 200 OK", new String(data).trim());
   }
 
   @Test
   public void ItShouldReturnAResponse() throws Exception
   {
     ResponseHandler response = new ResponseHandler();
-    assertEquals("HTTP/1.1 404 Not Found", response.getResponse("GET", "/foobar", ""));
+    response.getResponse("GET", "/foobar", "");
+    assertEquals(404, response.getStatusCode());
   }
 
   @Test
   public void ItShouldReturnA200OK() throws Exception
   {
     ResponseHandler response = new ResponseHandler();
-    assertEquals("HTTP/1.1 200 OK", response.getResponse("GET", "/a", ""));
+    byte[] data = response.getResponse("GET", "/a", "");
+    assertEquals("HTTP/1.1 200 OK", new String(data).trim() );
   }
 
   @Test
   public void ItShouldBeAbleToHandlePostMethod() throws Exception
   {
     ResponseHandler response = new ResponseHandler();
-    assertEquals("HTTP/1.1 200 OK", response.getResponse("POST", "/form", "foo=bar"));
+    byte[] data = response.getResponse("POST", "/form", "foo=bar");
+    System.out.println(new String(data).trim());
+    assertEquals("HTTP/1.1 200 OK", new String(data).trim());
   }
 
   @Test
   public void ItShouldBeAbleToHandlePutMethod() throws Exception
   {
     ResponseHandler response = new ResponseHandler();
-    assertEquals("HTTP/1.1 200 OK", response.getResponse("POST", "/form", "foo=bar"));
+    response.getResponse("POST", "/form", "foo=bar");
+    assertEquals(200, response.getStatusCode());
   }
 
   @Test
   public void ItShouldReturn302ForRedirects() throws Exception
   {
     ResponseHandler response = new ResponseHandler();
+    byte[] data = response.getResponse("GET", "/redirect", "");
+
     assertEquals("HTTP/1.1 302 Found\n" +
-      "Location: http://localhost:5000/", response.getResponse("GET", "/redirect", ""));
+      "Location: http://localhost:5000/", new String(data).trim());
   }
 
   @Test
@@ -68,11 +76,14 @@ public class ResponseHandlerTest {
   {
     ResponseHandler response = new ResponseHandler();
 
-    assertEquals("HTTP/1.1 405 Method Not Allowed",
-      response.getResponse("PUT", "/file1", ""));
+    byte[] data1 = response.getResponse("PUT", "/file1", "");
+    byte[] data2 = response.getResponse("POST", "/text-file.txt", "");
 
     assertEquals("HTTP/1.1 405 Method Not Allowed",
-      response.getResponse("POST", "/text-file.txt", ""));
+      new String(data1).trim());
+
+    assertEquals("HTTP/1.1 405 Method Not Allowed",
+      new String(data2).trim());
   }
 
   @Test
@@ -107,7 +118,7 @@ public class ResponseHandlerTest {
   {
     ResponseHandler response = new ResponseHandler();
     response.setBodyResponse("test");
-    assertEquals("test", response.getBodyResponse());
+    assertEquals("test", new String(response.getBodyResponse()));
   }
 
   @Test

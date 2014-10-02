@@ -17,4 +17,9 @@ public class Mocket implements Socket {
   public void writeSocketData(String input) {
 
   }
+
+  @Override
+  public void writeSocketData(byte[] input) {
+
+  }
 }

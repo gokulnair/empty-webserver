@@ -1,5 +1,7 @@
 package com.fire;
 
+import java.util.ArrayList;
+
 public class Server {
 
   private Socket socket;
@@ -22,10 +24,24 @@ public class Server {
     RequestHandler request = new RequestHandler(socket.readSocketData());
     ResponseHandler response = new ResponseHandler();
 
-    socket.writeSocketData(response.getResponse(
-      request.getMethod(),
-      request.getPath(),
-      ""));
+    String data;
+    ArrayList<String> methods = new ArrayList<String>();
+    methods.add("POST");
+    methods.add("PUT");
+    methods.add("OPTION");
 
+    System.out.println(request.getMethod());
+    if(methods.contains(request.getMethod())) {
+      data = new String(response.getResponse(
+        request.getMethod(),
+        request.getPath(),
+        ""));
+      socket.writeSocketData(data);
+    } else {
+      socket.writeSocketData(response.getResponse(
+        request.getMethod(),
+        request.getPath(),
+        ""));
+    }
   }
 }

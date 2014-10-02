@@ -1,8 +1,5 @@
 package com.fire;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 
 public class InternetSocket implements Socket {
@@ -38,6 +35,19 @@ public class InternetSocket implements Socket {
     try {
       PrintWriter out = new PrintWriter(socket.getOutputStream());
       out.println(input);
+
+      out.flush();
+    }
+    catch (Exception e)
+    {
+      close();
+    }
+  }
+
+  public void writeSocketData(byte[] byteArray) {
+    try {
+      OutputStream out = new BufferedOutputStream(socket.getOutputStream());
+      out.write(byteArray);
 
       out.flush();
     }

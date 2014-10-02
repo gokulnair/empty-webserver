@@ -12,7 +12,7 @@ public class RequestHandler {
   }
 
   public void parse(String request) {
-    if(request.length() > 0) {
+    if(request != null && request.length() > 0) {
       String[] requestArray = request.split(" ");
       setMethod(requestArray[0]);
       setPath(requestArray[1]);
