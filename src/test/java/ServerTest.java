@@ -17,7 +17,7 @@ public class ServerTest {
 
   @Test
   public void ItStartsASocket() throws Exception {
-    server.start();
+    server.run();
     assertTrue(mocket.Started);
   }
 }
