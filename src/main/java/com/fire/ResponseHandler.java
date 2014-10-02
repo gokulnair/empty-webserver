@@ -30,7 +30,7 @@ public class ResponseHandler {
     setBodyResponse(data);
   }
 
-  private byte[] handleQueryString(String queryStr) throws Exception{
+  private void handleQueryString(String queryStr) throws Exception{
     String [] queries = queryStr.split("&");
     String content = new String();
     for(String str: queries) {
@@ -39,32 +39,32 @@ public class ResponseHandler {
     }
     setStatusCode(200);
     setBodyResponse(content);
-    return buildResponse();
   }
 
-  public byte[] getResponse(String method, String path, String body) throws Exception {
+  public void getResponse(String method, String path, String body) throws Exception {
     String filePath = currentDir + "/public/" + path;
 
     if (isFile.exists(filePath) && method.equals("GET")) {
       checkPublic(path);
-      return buildResponse();
+      return;
     }
 
     String queryStr = getQuery(path);
     if((queryStr != null) && !queryStr.isEmpty()) {
-      return handleQueryString(queryStr);
+      handleQueryString(queryStr);
+      return;
     }
 
     if (path.equals("/foobar")) {
       setStatusCode(404);
       setBodyResponse("<html><body>404 Not Found</body></html>");
-      return buildResponse();
+      return;
     }
 
     if (path.equals("/redirect")) {
       setStatusCode(302);
       setHeader("Location", "http://localhost:5000/");
-      return buildResponse();
+      return;
     }
 
     if (path.equals("/") && method.equals("GET")) {
@@ -73,32 +73,31 @@ public class ResponseHandler {
       String currentDir = System.getProperty("user.dir");
       String content = file.getFolderStructureUrl(currentDir + "/public");
       setBodyResponse(content);
-      return buildResponse();
+      return;
     }
 
     if (path.equals("/file1") && method.equals("PUT") ||
       path.equals("/text-file.txt") && method.equals("POST")) {
       setStatusCode(405);
-      return buildResponse();
+      return;
     }
 
     if (path.equals("/method_options") && method.equals("OPTIONS")) {
       setStatusCode(200);
       setHeader("Allow", "GET,HEAD,POST,OPTIONS,PUT");
-      return buildResponse();
+      return;
     }
 
     setStatusCode(200);
-    return buildResponse();
+
   }
 
-  // Refactor buildResponse to not rely on internal calls
   public byte[] buildResponse() {
     String response;
     String headers = getHeaders();
     byte[] body = getBodyResponse();
 
-    response = protocol + " " + getStatusCode() + " " + getStatusMessage();
+    response = getOperation();
 
     if(!getHeaders().equals("")){
       response+= "\n"+ headers;
@@ -112,6 +111,7 @@ public class ResponseHandler {
     byte[] outputToSend = new byte[data.length + body.length];
     System.arraycopy(data, 0, outputToSend, 0, data.length);
     System.arraycopy(body, 0, outputToSend, data.length, body.length);
+
     return outputToSend;
   }
 
@@ -144,11 +144,15 @@ public class ResponseHandler {
     this.statusCode = statusCode;
   }
 
-  public String getStatusMessage() {
-    if (statusCode == 200) return "OK";
-    else if (statusCode == 302) return "Found";
-    else if (statusCode == 404) return "Not Found";
-    else if (statusCode == 405) return "Method Not Allowed";
+  public String getOperation() {
+    return protocol + " " + statusCode + " " + getStatusMessage(statusCode);
+  }
+
+  public String getStatusMessage(int code) {
+    if (code == 200) return "OK";
+    else if (code == 302) return "Found";
+    else if (code == 404) return "Not Found";
+    else if (code == 405) return "Method Not Allowed";
     else return "";
   }
 

@@ -20,12 +20,14 @@ public class Server {
   public void run() throws Exception {
     socket.start();
     RequestHandler request = new RequestHandler(socket.readSocketData());
-    ResponseHandler response = new ResponseHandler();
+    ResponseHandler responseHandler = new ResponseHandler();
 
-    socket.writeSocketData(response.getResponse(
+    responseHandler.getResponse(
       request.getMethod(),
       request.getPath(),
-      ""));
+      "");
+
+    socket.writeSocketData(responseHandler.buildResponse());
 
   }
 }
