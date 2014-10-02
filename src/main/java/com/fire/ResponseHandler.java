@@ -24,56 +24,71 @@ public class ResponseHandler {
   private HashMap<String, String> headers = new HashMap<String, String>();
   FileHandler isFile = new FileHandler();
 
+  private void checkPublic(String path) throws Exception {
+    setStatusCode(200);
+    byte[] data = isFile.read(currentDir +  "/public/" + path);
+    setBodyResponse(data);
+  }
+
+  private byte[] handleQueryString(String queryStr) throws Exception{
+    String [] queries = queryStr.split("&");
+    String content = new String();
+    for(String str: queries) {
+      String[] temp = str.split("=");
+      content += decodeParameters(temp[0]) + " = " + decodeParameters(temp[1]) + "\n";
+    }
+    setStatusCode(200);
+    setBodyResponse(content);
+    return buildResponse();
+  }
+
   public byte[] getResponse(String method, String path, String body) throws Exception {
     String filePath = currentDir + "/public/" + path;
 
     if (isFile.exists(filePath) && method.equals("GET")) {
-      setStatusCode(200);
-      byte[] data = isFile.read(currentDir +  "/public/" + path);
-      setBodyResponse(data);
-
-    } else {
-      String queryStr = getQuery(path);
-      if((queryStr != null) && !queryStr.isEmpty()) {
-        String [] queries = queryStr.split("&");
-        String content = new String();
-        for(String str: queries) {
-          String[] temp = str.split("=");
-          content += decodeParameters(temp[0]) + " = " + decodeParameters(temp[1]) + "\n";
-        }
-        setStatusCode(200);
-        setBodyResponse(content);
-        return buildResponse();
-      }
-
-      if (path.equals("/foobar")) {
-        setStatusCode(404);
-        setBodyResponse("<html><body>404 Not Found</body></html>");
-
-      } else if (path.equals("/redirect")) {
-        setStatusCode(302);
-        setHeader("Location", "http://localhost:5000/");
-
-      } else if (path.equals("/") && method.equals("GET")) {
-        setStatusCode(200);
-        FileHandler file = new FileHandler();
-        String currentDir = System.getProperty("user.dir");
-        String content = file.getFolderStructureUrl(currentDir + "/public");
-        setBodyResponse(content);
-
-      } else if (path.equals("/file1") && method.equals("PUT") ||
-        path.equals("/text-file.txt") && method.equals("POST")) {
-        setStatusCode(405);
-
-      } else if (path.equals("/method_options") && method.equals("OPTIONS")) {
-        setStatusCode(200);
-        setHeader("Allow", "GET,HEAD,POST,OPTIONS,PUT");
-
-      } else {
-        setStatusCode(200);
-      }
+      checkPublic(path);
+      return buildResponse();
     }
 
+    String queryStr = getQuery(path);
+    if((queryStr != null) && !queryStr.isEmpty()) {
+      return handleQueryString(queryStr);
+    }
+
+    if (path.equals("/foobar")) {
+      setStatusCode(404);
+      setBodyResponse("<html><body>404 Not Found</body></html>");
+      return buildResponse();
+    }
+
+    if (path.equals("/redirect")) {
+      setStatusCode(302);
+      setHeader("Location", "http://localhost:5000/");
+      return buildResponse();
+    }
+
+    if (path.equals("/") && method.equals("GET")) {
+      setStatusCode(200);
+      FileHandler file = new FileHandler();
+      String currentDir = System.getProperty("user.dir");
+      String content = file.getFolderStructureUrl(currentDir + "/public");
+      setBodyResponse(content);
+      return buildResponse();
+    }
+
+    if (path.equals("/file1") && method.equals("PUT") ||
+      path.equals("/text-file.txt") && method.equals("POST")) {
+      setStatusCode(405);
+      return buildResponse();
+    }
+
+    if (path.equals("/method_options") && method.equals("OPTIONS")) {
+      setStatusCode(200);
+      setHeader("Allow", "GET,HEAD,POST,OPTIONS,PUT");
+      return buildResponse();
+    }
+
+    setStatusCode(200);
     return buildResponse();
   }
 

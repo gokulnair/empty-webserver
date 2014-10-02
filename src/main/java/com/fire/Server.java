@@ -1,7 +1,5 @@
 package com.fire;
 
-import java.util.ArrayList;
-
 public class Server {
 
   private Socket socket;
