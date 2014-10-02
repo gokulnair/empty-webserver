@@ -11,14 +11,18 @@ public class Server {
   public static void main(String[] args) throws Exception {
 
     Server server = new Server(new InternetSocket(5000));
+    server.start();
 
     while (true) {
       server.run();
     }
   }
 
-  public void run() throws Exception {
+  public void start() {
     socket.start();
+  }
+
+  public void run() throws Exception {
     RequestHandler request = new RequestHandler(socket.readSocketData());
     ResponseHandler response = new ResponseHandler();
 
@@ -26,6 +30,5 @@ public class Server {
       request.getMethod(),
       request.getPath(),
       ""));
-
   }
 }

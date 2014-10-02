@@ -9,12 +9,17 @@ public class InternetSocket implements Socket {
 
   public InternetSocket(int portNumber) {
     this.portNumber = portNumber;
+    try {
+      serverSocket = new ServerSocket(portNumber);
+    } catch (IOException e) {
+      System.out.println(e.getMessage());
+      close();
+    }
   }
 
   @Override
   public void start() {
     try {
-      serverSocket = new ServerSocket(portNumber);
       socket = serverSocket.accept();
     } catch (Exception e) {
       close();
